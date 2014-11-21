@@ -1,4 +1,5 @@
 var should = require('should');
+var assert = require('assert');
 var Database = require('../lib/db.js');
 var Contratos = require('../index.js');
 
@@ -15,8 +16,7 @@ describe('Contratos', function () {
         new Database(configdb).getDatabase().
             then(function (db) {
                 database = db;
-                console.log('Obteniendo la base de datos');
-                contratos = new Contratos(database);
+                contratos = new Contratos(database,false);
                 done();
             }).
             catch(function (err) {
@@ -26,7 +26,10 @@ describe('Contratos', function () {
 
     it('Debe listar los contratos', function () {
 
-        contratos.get_contratos({}, function (docs) {
+        contratos.get_contratos({}, function (err, docs) {
+
+            assert.ifError(err);
+
             var l = docs.length;
 
             // Debe ser un arreglo
@@ -35,11 +38,17 @@ describe('Contratos', function () {
             // Debe por lo menos tener un elemento
             l.should.be.greaterThan(1);
         });
-
     });
 
+    it('Debe obtener la información de un contrato', function () {
+        contratos.get_contrato('5464f378218d3e9521175c47', function (err, doc) {
+            assert.ifError(err);
 
+            //doc no debe ser nulo
+            var x = doc.should.be.ok;
 
-
-
+            // debe tener la propiedad trabajador
+            doc.should.have.property('trabajador');
+        });
+    });
 });
