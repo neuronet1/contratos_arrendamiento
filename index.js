@@ -61,6 +61,49 @@ var Contratos = function (database, log) {
         });
     };
 
+    // Actualiza la información del contrato
+    self.update = function (contrato, next) {
+        var find_id = new self.database.ObjectID(contrato._id);
+
+        var operation = {
+            $set: {
+                "_id": contrato._id,
+                "trabajador": {
+                    "nombre": contrato.trabajador.nombre,
+                    "ficha":  contrato.trabajador.ficha,
+                    "nivel":  contrato.trabajador.nivel,
+                    "profesion": contrato.trabajador.profesion,
+                    "categoria": contrato.trabajador.categoria,
+                    "puesto": contrato.trabajador.puesto
+                },
+                "casa": {
+                    "status": contrato.casa.status,
+                    "estado": contrato.casa.estado,
+                    "colonia": contrato.casa.colonia,
+                    "cp": contrato.casa.cp,
+                    "parcela": contrato.casa.parcela,
+                    "escritura": contrato.casa.escritura,
+                    "casa": contrato.casa.casa
+                },
+                "empresa": {
+                    "centro": contrato.empresa.centro,
+                    "area": contrato.empresa.area
+                }
+            }
+        };
+
+        self.database.contratos.update({"_id":find_id},operation, function (err, doc) {
+            if(err) {
+                next(err);
+            }
+            else {
+                next(null, doc);
+            }
+        });
+    };
+
+
+
     // eventos
     self.on('get_contratos_starting', get_contratos_starting);
     self.on('get_contratos_finished', get_contratos_finished);
