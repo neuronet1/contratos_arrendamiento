@@ -66,7 +66,7 @@ var Contratos = function (database, log) {
         var find_id = new self.database.ObjectID(contrato._id);
 
         var operation = {
-            $set: {
+           /* $set: { */
                 "_id": contrato._id,
                 "trabajador": {
                     "nombre": contrato.trabajador.nombre,
@@ -89,7 +89,7 @@ var Contratos = function (database, log) {
                     "centro": contrato.empresa.centro,
                     "area": contrato.empresa.area
                 }
-            }
+           /* } */
         };
 
         self.database.contratos.update({"_id":find_id},operation, function (err, doc) {
