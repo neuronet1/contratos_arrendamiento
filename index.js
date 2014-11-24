@@ -67,7 +67,6 @@ var Contratos = function (database, log) {
 
         var operation = {
            /* $set: { */
-                "_id": contrato._id,
                 "trabajador": {
                     "nombre": contrato.trabajador.nombre,
                     "ficha":  contrato.trabajador.ficha,
