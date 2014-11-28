@@ -63,38 +63,10 @@ var Contratos = function (database, log) {
     };
 
     // Actualiza la información del contrato
-    self.update = function (data, next) {
-        var find_id = new self.database.ObjectID(data._id);
+    self.update = function (_id, contrato, next) {
+        var find_id = new self.database.ObjectID(_id);
 
-        var doc = data.contrato;
-        /*
-
-        var operation = {
-                "trabajador": {
-                    "nombre": contrato.trabajador.nombre,
-                    "ficha":  contrato.trabajador.ficha,
-                    "nivel":  contrato.trabajador.nivel,
-                    "profesion": contrato.trabajador.profesion,
-                    "categoria": contrato.trabajador.categoria,
-                    "puesto": contrato.trabajador.puesto
-                },
-                "casa": {
-                    "status": contrato.casa.status,
-                    "estado": contrato.casa.estado,
-                    "colonia": contrato.casa.colonia,
-                    "cp": contrato.casa.cp,
-                    "parcela": contrato.casa.parcela,
-                    "escritura": contrato.casa.escritura,
-                    "casa": contrato.casa.casa
-                },
-                "empresa": {
-                    "centro": contrato.empresa.centro,
-                    "area": contrato.empresa.area
-                }
-        };
-        */
-
-        self.database.contratos.update({"_id":find_id},doc, function (err, updated) {
+        self.database.contratos.update({"_id":find_id},contrato, function (err, updated) {
             if(err) {
                 next(err);
             }
@@ -103,7 +75,6 @@ var Contratos = function (database, log) {
             }
         });
     };
-
 
 
     // eventos
