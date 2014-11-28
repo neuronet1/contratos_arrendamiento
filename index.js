@@ -51,7 +51,8 @@ var Contratos = function (database, log) {
     self.get_contratos = function (filters, next) {
 
         self.emit('get_contratos_starting');
-        self.database.contratos.find().toArray(function (err, contratos) {
+        //self.database.contratos.find().toArray(function (err, contratos) {
+        self.database.contratos.find().sort({'trabajador.nombre':1}).toArray(function (err, contratos) {
             if(err) {
                 next(err);
             }
@@ -62,8 +63,11 @@ var Contratos = function (database, log) {
     };
 
     // Actualiza la información del contrato
-    self.update = function (contrato, next) {
-        var find_id = new self.database.ObjectID(contrato._id);
+    self.update = function (data, next) {
+        var find_id = new self.database.ObjectID(data._id);
+
+        var doc = data.contrato;
+        /*
 
         var operation = {
                 "trabajador": {
@@ -88,8 +92,9 @@ var Contratos = function (database, log) {
                     "area": contrato.empresa.area
                 }
         };
+        */
 
-        self.database.contratos.update({"_id":find_id},operation, function (err, updated) {
+        self.database.contratos.update({"_id":find_id},doc, function (err, updated) {
             if(err) {
                 next(err);
             }
